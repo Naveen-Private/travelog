@@ -8,7 +8,7 @@
     <meta name=description content="Share and explore travel destinations around the world with others" />
     <meta name="keywords" content="Travel, Share, travelshare, explore, destinations, users, discover, places, connect, world, flyers, travelflyers" />
     <meta name="author" content="David Trushkov" />
-    <link rel="shortcut icon" href="{!! asset('/src/public/css/Travel-Share-Icon.png') !!}" />
+    <link rel="shortcut icon" href="{!! asset('/src/public/css/Travelog_Icon.png.png') !!}" />
 
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>

@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container-fluid" id="Home-Container">
+    <!-- <div class="container-fluid" id="Home-Container">
 
         <div class="col-md-12" id="Home-Icon-col-md-12">
             <div class="col-xs-12 col-md-4" id="Home-Icon-4">
@@ -26,21 +26,22 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 
-    <div class="container-fluid" id="Home-Container">
+    <!-- <div class="container-fluid" id="Home-Container">
 
         <div class="col-md-12" style="padding: 0;">
             <div id="map_home"></div>
             <br><br>
         </div>
 
-    </div>
+    </div> -->
+    @include('pages.partials.homepagelayout')
 
 
 @stop
 
-@section('scripts.footer')
+<!-- @section('scripts.footer')
     <script>
 
             jQuery(function($) {
@@ -159,4 +160,4 @@
             }
     </script>
 
-@stop
+@stop -->

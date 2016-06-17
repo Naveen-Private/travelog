@@ -55,39 +55,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/password/reset/{token}', '\App\Http\Controllers\PasswordController@getReset');
     Route::post('/password/reset', '\App\Http\Controllers\PasswordController@postReset');
 
-
+   
 
     /*****************
      * Profile Routes
      ****************/
-    Route::group(["middleware" => 'custom'], function(){
-
-        // Get Profile Dashboard
-        Route::get('/user/{username}', [
-            'uses' => '\App\Http\Controllers\ProfileController@getDashboardProfile',
-            'as'   => 'profile.index',
-            'middleware' => ['auth'],
-        ]);
-        // Get Your Flyers
-        Route::get('/user/{username}/flyers', [
-            'uses' => '\App\Http\Controllers\ProfileController@getUserFlyers',
-            'as'   => 'profile.your-flyers',
-            'middleware' => ['auth'],
-        ]);
-        // Get Edit profile
-        Route::get('/user/{username}/edit', [
-            'uses' => '\App\Http\Controllers\ProfileController@getEditProfile',
-            'as'   => 'profile.edit-profile',
-            'middleware' => ['auth']
-        ]);
-        /** Get a Users travel Flyers to display in their Profile */
-        Route::get('{username}/flyers', [
-            'uses' => '\App\Http\Controllers\ProfileController@showFlyerForProfile',
-            'as'   => 'profile.your-flyers',
-            'middleware' => ['auth']
-        ]);
-
-    });
+    
 
     /** Edit Profile. **/
     Route::post('/user/{username}/edit', [
@@ -108,93 +81,38 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 
-Route::group(['middleware' => ['web']], function () {
-
-    /** Resource Route For Travel Flyers */
-    Route::resource('travelflyers', 'TravelFlyersController');
-
-    /** Show a Flyer. **/
-    Route::get('{title}', 'TravelFlyersController@show');
-
-    /** Delete travel flyer. **/
-    Route::delete('/flyer/{id}', [
-        'uses' => '\App\Http\Controllers\TravelFlyersController@delete',
-        'as'   => 'profile.destroy',
-    ]);
-
-    /** Add a photo to a flyer **/
-    Route::post('{title}/photo', 'FlyerPhotosController@store');
-
-    /** Delete Flyer photo **/
-    Route::delete('photos/{id}', 'FlyerPhotosController@destroy');
-
-    /** Add a photo banner to a flyer **/
-    Route::post('{title}/banner', 'TravelFlyersController@addBannerPhoto');
-
-    /** Delete Flyer Banner photo **/
-    Route::delete('photo/{id}', [
-        'uses' => '\App\Http\Controllers\TravelFlyersController@destroyBannerPhoto',
-        'as'   => 'flyer.delete.banner',
-    ]);
-
-    /** Route to like a travel Flyer. **/
-    Route::get('flyer/{flyerId}/like', [
-        'uses' => '\App\Http\Controllers\TravelFlyersController@getLike',
-        'as'   => 'flyer.like',
-        'middleware' => ['auth']
-    ]);
-
-    /** Route to like a status. **/
-    Route::get('status/{statusId}/like', [
-        'uses' => '\App\Http\Controllers\StatusController@getLike',
-        'as'   => 'status.like',
-        'middleware' => ['auth']
-    ]);
-
-    /** Route to sort travel Flyers by Date asc */
-    Route::get('travelflyers/date/asc', [
-        'uses' => '\App\Http\Controllers\OrderByController@travelDateAsc',
-        'as'   => 'travelflyers.asc',
-    ]);
-
-    /** Route to sort travel Flyers by Date desc */
-    Route::get('travelflyers/date/desc', [
-        'uses' => '\App\Http\Controllers\OrderByController@travelDateDesc',
-        'as'   => 'travelflyers.desc',
-    ]);
-
-    /** Route to search travel flyers */
-    Route::post('travelflyers/search',[
-        'uses' => '\App\Http\Controllers\TravelFlyersController@search',
-        'as'   => 'travelflyers.search',
-    ]);
-
-
-    /****************
-    * Status Routes
-    ****************/
-
-    // Post a status on your public profile.
-    Route::post('/status', [
-        'uses' => '\App\Http\Controllers\StatusController@postStatus',
-        'as' => 'status.post',
-    ]);
-    // post a reply on any ones public profile.
-    Route::post('/status/{statusId}/reply', [
-        'uses' => '\App\Http\Controllers\StatusController@postReply',
-        'as' => 'status.reply',
-    ]);
-
-
-    /** Leaderboards Route **/
-    Route::get('leaderboards/index', [
-        'uses' => '\App\Http\Controllers\PagesController@leaderBoards',
-        'as'   => 'leaderboards.index',
-    ]);
-
-    /** Get a users public Profile */
-    Route::get('/profile/{id}', [
-        'uses' => '\App\Http\Controllers\ProfileController@showPublicProfile',
-        'as'   => 'users.show',
-    ]);
+Route::group(['middleware' => ['web'],'namespace' => 'Admin'], function () {
+    Route::get('admin', array('as' => 'admin-login','uses' => 'AuthController@getLogin'));
+    Route::post('admin', ['as'=>'admin-login','uses'=>'AuthController@postLogin']);
+ });
+ Route::group(['middleware' => ['web','auth'],'namespace' => 'Admin','prefix'=>'admin'], function () {
+        Route::get('dashboard', array('as' => 'dashboard','uses' => 'AuthController@getDashboard'));
+        Route::get('logout', array('as' => 'admin-logout','uses' => 'AuthController@logout'));
 });
+
+//routes relared to roles
+//routes related to roles
+Route::group(['middleware' => ['web','auth'],'prefix' => 'role','namespace' => 'Admin'], function () {
+    Route::get('add', array('as' => 'addRole','uses' => 'RolesController@addRole'));
+    Route::post('add', array('as' => 'addRole','uses' => 'RolesController@postaddRole'));
+    
+    Route::get('view',['as'=>'viewRoles','uses'=>'RolesController@viewRoles']);
+    
+    Route::get('edit/{id}', array('as' => 'edit-role','uses' => 'RolesController@editRole'));
+    Route::post('edit/{id?}', array('as' => 'edit-role','uses' => 'RolesController@posteditRole'));
+    
+    Route::get('delete/{id?}', array('as' => 'delete-role','uses' => 'RolesController@deleteRole'));
+});
+
+//routes related to permissions
+Route::group(['middleware' => ['web','auth'],'prefix' => 'permission','namespace' => 'Admin'], function () {
+    Route::get('add', array('as' => 'addPermission','uses' => 'RolesController@addPermission'));
+    Route::post('add', array('as' => 'addPermission','uses' => 'RolesController@postaddPermission'));
+    
+    Route::get('view',['as'=>'viewPermissions','uses'=>'RolesController@viewPermissions']);
+    
+    Route::get('edit/{id}', array('as' => 'edit-permission','uses' => 'RolesController@editPermission'));
+    Route::post('edit/{id?}', array('as' => 'edit-permission','uses' => 'RolesController@posteditPermission'));
+    
+    Route::get('delete/{id?}', array('as' => 'delete-permission','uses' => 'RolesController@deletePermission'));
+ });

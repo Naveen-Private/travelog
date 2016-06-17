@@ -11,7 +11,8 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "intervention/image": "^2.3",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "spatie/laravel-permission": "^1.4"
         
     },
     "require-dev": {

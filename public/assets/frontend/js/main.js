@@ -88,20 +88,20 @@ $(document).ready(function() {
 /**
  * Shows a hover effect on thumb liked and thumb like incTravel Flyer show blade.
  */
-$('#thumbs-popup')
+/*$('#thumbs-popup')
     .popup({
         popup : $('#popup2'),
         on    : 'hover',
         hoverable: true
-    });
+    });*/
 
 
-$('#thumbs-like-popup')
+/*$('#thumbs-like-popup')
     .popup({
         popup : $('#popup1'),
         on    : 'hover',
         hoverable: true
-    });
+    });*/
 
 
 /**
@@ -137,6 +137,23 @@ $('#thumbs-like-popup')
     $(document).ready(function() {
         // Feel free to set it for any element who trigger the reload
         $('form').scrollPosReaload();
+        $('#homePageSlider').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 4000,
+            dots:false,
+        });
+
+        $('.flashSalesDropDown').hide();
+
+        /*$('.fiterOption').hover(function(e){
+            e.preventDefault();
+            $('.flashSalesDropDown').show();
+        },function(e){
+            e.preventDefault();
+            $('.flashSalesDropDown').hide();
+        });*/
     });
 
 }(jQuery));

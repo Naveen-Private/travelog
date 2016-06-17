@@ -9,6 +9,7 @@ use App\Status;
 use Carbon\Carbon;
 use App\ProfilePhoto;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -16,6 +17,7 @@ class User extends Authenticatable
      * @var string
      */
     protected $table = 'users';
+    use HasRoles;
 
 
     /**
